@@ -19,6 +19,7 @@ protected:
 	float lastTime;
 	int ticks;
 	bool useBuffer;
+    float tickTime;
 public:
 	DelayTimer() :
 		period(0),
@@ -38,6 +39,12 @@ public:
 	void setUseBuffer(bool useBuffer) {
 		this->useBuffer = useBuffer;
 	}
+    float getTimeSinceTick(){
+        return lastTime-tickTime;
+    }
+    float getTimeToTick(){
+        return period-(lastTime-tickTime);
+    }
 	bool tick() {
 		float curTime = ofGetElapsedTimef();
 		int curTicks = (int) (curTime / period);
@@ -50,9 +57,12 @@ public:
 			} else {
 				ticks = 0;
 			}
+            tickTime = curTime; // Save time of tick
 			return true;
 		} else {
 			return false;
 		}
 	}
+    
+
 };
